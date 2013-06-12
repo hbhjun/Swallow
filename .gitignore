@@ -6,3 +6,4 @@
 /logs
 /.svn
 *.log
+*.DS_Store
