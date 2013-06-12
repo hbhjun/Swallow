@@ -1,6 +1,6 @@
 package cn.swallowserver.nio;
 
-import cn.swallowserver.interaction.BaseResponse;
+import cn.swallowserver.session.BaseResponse;
 import cn.swallowserver.session.Session;
 
 import java.io.IOException;
@@ -12,6 +12,7 @@ import java.nio.channels.SocketChannel;
  * @author Chen Haoming
  *         <p/>
  *         Note that the output stream of this class can only be flushed once.
+ *         And also note that NIOResponseImpl is not thread-safe.
  */
 public class NIOResponseImpl extends BaseResponse implements NIOResponse {
 
@@ -45,7 +46,7 @@ public class NIOResponseImpl extends BaseResponse implements NIOResponse {
             public void write (int b) throws IOException {
                 if (flushed || closed) {
                     throw new IllegalStateException (
-                            "This stream has ever been flushed or closed, so can write data anymore.");
+                            "This stream has already been flushed or closed, so can not write data anymore.");
                 }
 
                 if (len == bytes.length) {
@@ -65,7 +66,7 @@ public class NIOResponseImpl extends BaseResponse implements NIOResponse {
 
             @Override
             public void flush () throws IOException {
-                if (!flushed && len > 0 && !closed) {
+                if (! flushed && len > 0 && ! closed) {
                     ByteBuffer byteBuffer = ByteBuffer.wrap (bytes);
                     socketChannel.write (byteBuffer);
                     bytes = null;
@@ -76,7 +77,7 @@ public class NIOResponseImpl extends BaseResponse implements NIOResponse {
 
             @Override
             public void close () throws IOException {
-                if (!closed) {
+                if (! closed) {
                     flush ();
                     closed = true;
                 }

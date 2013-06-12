@@ -7,9 +7,9 @@ import cn.swallowserver.ThreadTemplate;
  */
 public class Monitor extends ThreadTemplate {
 
-    private Server server;
+    private NIOServer server;
 
-    Monitor (Server server) {
+    Monitor (NIOServer server) {
        this.server = server;
     }
 

@@ -1,9 +1,8 @@
 package cn.swallowserver.interation;
 
-import cn.swallowserver.dispatcher.DispatchTask;
-import cn.swallowserver.interaction.Request;
-import cn.swallowserver.interaction.Response;
-import cn.swallowserver.nio.NIOResponseFactory;
+import cn.swallowserver.nio.NIOInterfactionFactory;
+import cn.swallowserver.session.Request;
+import cn.swallowserver.session.Response;
 import cn.swallowserver.session.Session;
 import org.jmock.Expectations;
 import org.jmock.integration.junit4.JMock;
@@ -35,7 +34,7 @@ public class NIOResponseFactoryTest {
         });
 
 
-        NIOResponseFactory factory = new NIOResponseFactory () ;
+        NIOInterfactionFactory factory = new NIOInterfactionFactory () ;
 
         Response response = factory.create (request);
 

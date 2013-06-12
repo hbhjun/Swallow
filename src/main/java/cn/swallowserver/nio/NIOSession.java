@@ -1,12 +1,11 @@
 package cn.swallowserver.nio;
 
 import cn.swallowserver.SwallowServer;
+import cn.swallowserver.session.AttributeHolder;
+import cn.swallowserver.session.BaseAttributeHolder;
 import cn.swallowserver.session.Session;
-import cn.swallowserver.session.SessionContext;
-import cn.swallowserver.session.SessionContextImpl;
 
 import java.io.IOException;
-import java.net.InetSocketAddress;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
@@ -26,13 +25,15 @@ public class NIOSession implements Session {
 
     private SelectionKey writeKey;
 
-    private SessionContext sessionContext;
+    private AttributeHolder attributes = new BaseAttributeHolder ();
 
     private final Object validLock = new Object ();
 
-    public NIOSession (SocketChannel socketChannel, SessionContext sessionContext) {
+    private SwallowServer server;
+
+    public NIOSession (SocketChannel socketChannel, NIOServer server) {
         this.socketChannel = socketChannel;
-        this.sessionContext = sessionContext;
+        this.server = server;
     }
 
     public SocketChannel getSocketChannel () {
@@ -40,8 +41,8 @@ public class NIOSession implements Session {
     }
 
     @Override
-    public SessionContext getSessionContext () {
-        return sessionContext;
+    public AttributeHolder getAttributes () {
+        return attributes;
     }
 
     @Override
@@ -57,7 +58,7 @@ public class NIOSession implements Session {
             if (valid) {
                 socketChannel.close ();
                 this.valid = false;
-                Server server = (Server) sessionContext.getSwallowServer ();
+                NIOServer server = (NIOServer) this.getServer ();
                 Map<SocketChannel, NIOSession> map = server.getSocketChannelSessionMap ();
                 map.remove (socketChannel);
             }
@@ -65,10 +66,15 @@ public class NIOSession implements Session {
 
     }
 
-    public static NIOSession create (Selector selector, ServerSocketChannel serverSocketChannel) throws IOException {
+    @Override
+    public SwallowServer getServer () {
+        return this.server;
+    }
+
+    public static NIOSession create (Selector selector, ServerSocketChannel serverSocketChannel, NIOServer server) throws IOException {
         SocketChannel socketChannel = serverSocketChannel.accept ();
         socketChannel.configureBlocking (false);
-        NIOSession session = new NIOSession (socketChannel, new SessionContextImpl ((InetSocketAddress) socketChannel.getRemoteAddress ()));
+        NIOSession session = new NIOSession (socketChannel, server);
         session.readKey = socketChannel.register (selector, SelectionKey.OP_READ);
         session.writeKey = socketChannel.register (selector, SelectionKey.OP_WRITE);
         return session;

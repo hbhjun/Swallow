@@ -30,6 +30,8 @@ public class NIOReader extends IOThread {
 
     private DispatchTaskFactory dispatchTaskFactory;
 
+    private NIOInterfactionFactory serverFactory;
+
     NIOReader (NIOServer server) {
         super (server);
     }
@@ -63,8 +65,7 @@ public class NIOReader extends IOThread {
             }
 
             if (allBytesRead.length > 0) {
-                NIORequestImpl request = new NIORequestImpl (getServer ().getSocketChannelSessionMap ().get (channel));
-
+                NIORequest request = serverFactory.create (getServer ().getSocketChannelSessionMap ().get (channel), allBytesRead);
                 DispatchTask task = dispatchTaskFactory.create (request);
 
                 try {
@@ -104,7 +105,7 @@ public class NIOReader extends IOThread {
     }
 
     void read (SelectionKey selectionKey) {
-        if (!isRunning ()) {
+        if (! isRunning ()) {
             throw new IllegalStateException ("Read[" + this + "] is not started, so cannot read.");
         }
         selectionKeys.offer (selectionKey);

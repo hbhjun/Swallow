@@ -2,8 +2,8 @@ package cn.swallowserver.handler;
 
 import cn.swallowserver.filter.BaseFilter;
 import cn.swallowserver.filter.RequestFilterChain;
-import cn.swallowserver.interaction.Request;
-import cn.swallowserver.interaction.Response;
+import cn.swallowserver.session.Request;
+import cn.swallowserver.session.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

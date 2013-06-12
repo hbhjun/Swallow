@@ -1,6 +1,6 @@
 package cn.swallowserver.nio;
 
-import cn.swallowserver.interaction.PushMessage;
+import cn.swallowserver.session.PushMessage;
 
 /**
  * @author ICMLucky

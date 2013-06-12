@@ -1,7 +1,5 @@
 package cn.swallowserver.session;
 
-import cn.swallowserver.context.AttributeHolder;
-
 import java.util.Date;
 
 /**

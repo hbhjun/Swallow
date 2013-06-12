@@ -13,13 +13,13 @@ public abstract class IOThread extends ThreadTemplate {
 
     private static final int CAPACITY = 1024;
 
-    private Server server;
+    private NIOServer server;
     private int bufferCapacity = CAPACITY;
     private int timeout = DEFAULT_TIMEOUT;
     private TimeUnit timeUnit = TimeUnit.MILLISECONDS;
     private SoftReference<ByteBuffer> bufferCache = new SoftReference<ByteBuffer> (ByteBuffer.allocate (bufferCapacity));
 
-    IOThread(Server server) {
+    IOThread(NIOServer server) {
         if (null == server) {
             throw new NullPointerException("Server is null!");
         }
@@ -38,7 +38,7 @@ public abstract class IOThread extends ThreadTemplate {
         this.bufferCapacity = bufferCapacity;
     }
 
-    protected Server getServer () {
+    protected NIOServer getServer () {
         return server;
     }
 

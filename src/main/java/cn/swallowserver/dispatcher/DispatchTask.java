@@ -1,11 +1,10 @@
 package cn.swallowserver.dispatcher;
 
-import cn.swallowserver.filter.BaseFilter;
 import cn.swallowserver.filter.RequestFilterChain;
 import cn.swallowserver.handler.RequestHandler;
-import cn.swallowserver.interaction.Request;
-import cn.swallowserver.interaction.Response;
-import cn.swallowserver.interaction.ResponseFactory;
+import cn.swallowserver.session.InteractionFactory;
+import cn.swallowserver.session.Request;
+import cn.swallowserver.session.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,7 +21,7 @@ public class DispatchTask implements Dispatcher {
 
     private RequestFilterChain requestFilterChain;
 
-    private ResponseFactory responseFactory;
+    private InteractionFactory responseFactory;
 
     DispatchTask () {
 
@@ -56,7 +55,7 @@ public class DispatchTask implements Dispatcher {
         this.requestFilterChain = requestFilterChain;
     }
 
-    public void setResponseFactory (ResponseFactory responseFactory) {
+    public void setResponseFactory (InteractionFactory responseFactory) {
         this.responseFactory = responseFactory;
     }
 

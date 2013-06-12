@@ -1,6 +1,6 @@
 package cn.swallowserver.nio;
 
-import cn.swallowserver.interaction.Response;
+import cn.swallowserver.session.Response;
 
 import java.nio.channels.SocketChannel;
 

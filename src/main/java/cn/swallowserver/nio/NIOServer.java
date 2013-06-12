@@ -2,7 +2,7 @@ package cn.swallowserver.nio;
 
 import cn.swallowserver.ThreadTemplate;
 import cn.swallowserver.SwallowServer;
-import cn.swallowserver.context.AttributeHolder;
+import cn.swallowserver.session.AttributeHolder;
 import cn.swallowserver.event.ServerEventNotifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,8 +30,8 @@ public class NIOServer extends ThreadTemplate implements SwallowServer {
 
     private Selector selector;
 
-    private Reader reader;
-    private Writer writer;
+    private NIOReader reader;
+    private NIOWriter writer;
 
     private Map<SocketChannel, NIOSession> socketChannelSessionMap = new ConcurrentHashMap<SocketChannel, NIOSession> ();
 
@@ -48,8 +48,8 @@ public class NIOServer extends ThreadTemplate implements SwallowServer {
         serverSocket.bind (new InetSocketAddress (PORT));
         serverSocketChannel.register (selector, SelectionKey.OP_ACCEPT);
 
-        reader = new Reader (this);
-        writer = new Writer (this);
+        reader = new NIOReader (this);
+        writer = new NIOWriter (this);
     }
 
     @Override

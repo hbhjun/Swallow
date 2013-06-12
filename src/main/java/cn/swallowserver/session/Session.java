@@ -1,7 +1,6 @@
 package cn.swallowserver.session;
 
 import cn.swallowserver.SwallowServer;
-import cn.swallowserver.context.AttributeHolder;
 
 import java.io.IOException;
 

@@ -2,8 +2,8 @@ package cn.swallowserver.dispatcher;
 
 import cn.swallowserver.filter.RequestFilterChain;
 import cn.swallowserver.handler.RequestHandler;
-import cn.swallowserver.interaction.Request;
-import cn.swallowserver.interaction.Response;
+import cn.swallowserver.session.Request;
+import cn.swallowserver.session.Response;
 
 /**
  * @author ICMLucky

@@ -1,6 +1,6 @@
 package cn.swallowserver;
 
-import cn.swallowserver.event.Notifier;
+import cn.swallowserver.session.AttributeHolder;
 import cn.swallowserver.event.ServerEvenSource;
 
 /**
@@ -8,6 +8,9 @@ import cn.swallowserver.event.ServerEvenSource;
  */
 public interface SwallowServer extends ServerEvenSource {
 
-    ServerContext getServerContext();
+    AttributeHolder getAttributes ();
 
+    String getEncoding();
+
+    void setEncoding(String encoding);
 }

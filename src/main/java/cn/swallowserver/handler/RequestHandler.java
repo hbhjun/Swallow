@@ -1,7 +1,7 @@
 package cn.swallowserver.handler;
 
-import cn.swallowserver.interaction.Request;
-import cn.swallowserver.interaction.Response;
+import cn.swallowserver.session.Request;
+import cn.swallowserver.session.Response;
 
 /**
  * @author Chen Haoming
