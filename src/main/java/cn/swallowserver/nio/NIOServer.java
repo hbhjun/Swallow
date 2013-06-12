@@ -1,10 +1,8 @@
 package cn.swallowserver.nio;
 
-import cn.swallowserver.ServerContext;
 import cn.swallowserver.ThreadTemplate;
 import cn.swallowserver.SwallowServer;
-import cn.swallowserver.event.Event;
-import cn.swallowserver.event.Notifier;
+import cn.swallowserver.context.AttributeHolder;
 import cn.swallowserver.event.ServerEventNotifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +14,6 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -24,9 +21,9 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * @author Chen Haoming
  */
-public class Server extends ThreadTemplate implements SwallowServer {
+public class NIOServer extends ThreadTemplate implements SwallowServer {
 
-    private static final transient Logger log = LoggerFactory.getLogger (Server.class);
+    private static final transient Logger log = LoggerFactory.getLogger (NIOServer.class);
 
     public static final int PORT = 19999;
     public static final String UTF_8 = "UTF-8";
@@ -38,11 +35,11 @@ public class Server extends ThreadTemplate implements SwallowServer {
 
     private Map<SocketChannel, NIOSession> socketChannelSessionMap = new ConcurrentHashMap<SocketChannel, NIOSession> ();
 
-    ServerContext serverContext;
+    AttributeHolder serverContext;
 
     private String encoding = UTF_8;
 
-    public Server () throws IOException {
+    public NIOServer () throws IOException {
 
         selector = Selector.open ();
         ServerSocketChannel serverSocketChannel = ServerSocketChannel.open ();
@@ -78,7 +75,7 @@ public class Server extends ThreadTemplate implements SwallowServer {
                     if (key.isValid ()) {
                         if (key.isAcceptable()) {
                             ServerSocketChannel channel = (ServerSocketChannel) key.channel ();
-                            NIOSession session = NIOSession.create (selector, channel);
+                            NIOSession session = NIOSession.create (selector, channel, this);
                             socketChannelSessionMap.put (session.getSocketChannel (), session);
                             //notifier.fireAccepted(new Event(key));
                         }
@@ -120,7 +117,7 @@ public class Server extends ThreadTemplate implements SwallowServer {
     }
 
     @Override
-    public ServerContext getServerContext() {
+    public AttributeHolder getAttributes () {
         throw new UnsupportedOperationException();  //To change body of created methods use File | Settings | File Templates.
     }
 

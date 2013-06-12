@@ -1,4 +1,4 @@
-package cn.swallowserver.interaction;
+package cn.swallowserver.session;
 
 import java.io.InputStream;
 

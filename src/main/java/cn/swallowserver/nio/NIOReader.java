@@ -2,7 +2,6 @@ package cn.swallowserver.nio;
 
 import cn.swallowserver.dispatcher.DispatchTask;
 import cn.swallowserver.dispatcher.DispatchTaskFactory;
-import cn.swallowserver.session.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,11 +9,9 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.SocketChannel;
-import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -23,9 +20,9 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author Chen Haoming
  */
-public class Reader extends IOThread {
+public class NIOReader extends IOThread {
 
-    private static final transient Logger log = LoggerFactory.getLogger (Reader.class);
+    private static final transient Logger log = LoggerFactory.getLogger (NIOReader.class);
 
     private BlockingQueue<SelectionKey> selectionKeys;
 
@@ -33,7 +30,7 @@ public class Reader extends IOThread {
 
     private DispatchTaskFactory dispatchTaskFactory;
 
-    Reader (Server server) {
+    NIOReader (NIOServer server) {
         super (server);
     }
 
@@ -67,7 +64,7 @@ public class Reader extends IOThread {
 
             if (allBytesRead.length > 0) {
                 NIORequestImpl request = new NIORequestImpl (getServer ().getSocketChannelSessionMap ().get (channel));
-                request.setOriginalMessage (allBytesRead);
+
                 DispatchTask task = dispatchTaskFactory.create (request);
 
                 try {

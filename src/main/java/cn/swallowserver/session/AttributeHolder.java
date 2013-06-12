@@ -1,4 +1,4 @@
-package cn.swallowserver;
+package cn.swallowserver.session;
 
 import java.util.Date;
 import java.util.Map;
@@ -37,4 +37,6 @@ public interface AttributeHolder {
     Double getDouble (String key, Double defaultAttr);
 
     Date getDate (String key, Date defaultAttr);
+
+    Object removeAttribute (String key);
 }

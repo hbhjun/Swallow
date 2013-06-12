@@ -1,6 +1,5 @@
 package cn.swallowserver.nio;
 
-import cn.swallowserver.session.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -8,8 +7,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
-import java.nio.charset.Charset;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
@@ -18,13 +15,13 @@ import java.util.concurrent.LinkedBlockingQueue;
 /**
  * @author Chen Haoming
  */
-public class Writer extends IOThread {
+public class NIOWriter extends IOThread {
 
-    private static final transient Logger log = LoggerFactory.getLogger (Writer.class);
+    private static final transient Logger log = LoggerFactory.getLogger (NIOWriter.class);
 
     private BlockingQueue<NIOPushMessage> pushMessagesQueue;
 
-    Writer (Server server) {
+    NIOWriter (NIOServer server) {
         super (server);
         pushMessagesQueue = new LinkedBlockingQueue<NIOPushMessage> ();
     }

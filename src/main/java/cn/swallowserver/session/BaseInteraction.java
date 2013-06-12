@@ -1,6 +1,4 @@
-package cn.swallowserver.interaction;
-
-import cn.swallowserver.session.Session;
+package cn.swallowserver.session;
 
 /**
  * @author Chen Haoming

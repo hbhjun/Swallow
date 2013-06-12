@@ -1,12 +1,9 @@
-package cn.swallowserver.interaction;
-
-import cn.swallowserver.session.Session;
+package cn.swallowserver.session;
 
 import java.io.IOException;
 import java.io.OutputStream;
 
 /**
- *
  * Base response to the client's request. A request is designed to be handled in a single thread and only one response
  * to each request. So none of requests' and responses' method is thread-safe.
  *
@@ -18,8 +15,11 @@ public abstract class BaseResponse extends BaseInteraction implements Response {
 
     private boolean closed = false;
 
+    private String encoding;
+
     public BaseResponse (Session session) {
         super (session);
+        this.encoding = session.getServer ().getEncoding ();
     }
 
     @Override
@@ -29,7 +29,7 @@ public abstract class BaseResponse extends BaseInteraction implements Response {
 
     @Override
     public void close () throws IOException {
-        if (!isClosed ()) {
+        if (! isClosed ()) {
             OutputStream os = getOut ();
 
             try {
@@ -42,8 +42,8 @@ public abstract class BaseResponse extends BaseInteraction implements Response {
     }
 
     protected void setOut (OutputStream out) {
-        if ( null == out ) {
-            throw new NullPointerException();
+        if (null == out) {
+            throw new NullPointerException ();
         }
 
         this.out = out;
@@ -51,5 +51,9 @@ public abstract class BaseResponse extends BaseInteraction implements Response {
 
     public OutputStream getOut () {
         return out;
+    }
+
+    public void setEncoding (String encoding) {
+        this.encoding = encoding;
     }
 }

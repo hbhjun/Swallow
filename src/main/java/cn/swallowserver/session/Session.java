@@ -1,19 +1,18 @@
 package cn.swallowserver.session;
 
-import cn.swallowserver.AttributeHolder;
+import cn.swallowserver.SwallowServer;
+import cn.swallowserver.context.AttributeHolder;
 
 import java.io.IOException;
-import java.net.InetSocketAddress;
-import java.net.SocketAddress;
-import java.util.Map;
 
 
 public interface Session {
 
-    SessionContext getSessionContext();
+    AttributeHolder getAttributes ();
 
     boolean isValid ();
 
     void invalid () throws IOException;
 
+    SwallowServer getServer();
 }

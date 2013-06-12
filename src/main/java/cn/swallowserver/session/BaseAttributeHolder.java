@@ -1,4 +1,4 @@
-package cn.swallowserver;
+package cn.swallowserver.session;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -9,7 +9,7 @@ import java.util.Map;
 /**
  * @author Chen Haoming
  */
-public abstract class BaseAttributeHolder implements AttributeHolder {
+public class BaseAttributeHolder implements AttributeHolder {
 
     private Map<String, Object> attributes = new HashMap<String, Object> ();
     private DateFormat dateFormat = new SimpleDateFormat ("z yyyy-MM-dd HH:mm:ss.SSS");
@@ -110,8 +110,9 @@ public abstract class BaseAttributeHolder implements AttributeHolder {
         return null == date ? defaultAttr : date;
     }
 
-    protected void setAttributes (Map<String, Object> attributes) {
-        this.attributes = attributes;
+    @Override
+    public Object removeAttribute (String key) {
+        return attributes.remove (key);
     }
 
     public void setDateFormat (DateFormat dateFormat) {
